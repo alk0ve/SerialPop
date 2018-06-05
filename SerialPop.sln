@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26403.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console", "Console\Console.csproj", "{7AB53B4B-E827-455C-993F-0483D9A30788}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "Console\TestConsole.csproj", "{7AB53B4B-E827-455C-993F-0483D9A30788}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "shared", "shared\shared.csproj", "{BA292DFC-6631-43B9-BF5F-1EFE8BB36F4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{7AB53B4B-E827-455C-993F-0483D9A30788}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7AB53B4B-E827-455C-993F-0483D9A30788}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7AB53B4B-E827-455C-993F-0483D9A30788}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA292DFC-6631-43B9-BF5F-1EFE8BB36F4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA292DFC-6631-43B9-BF5F-1EFE8BB36F4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA292DFC-6631-43B9-BF5F-1EFE8BB36F4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA292DFC-6631-43B9-BF5F-1EFE8BB36F4D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
