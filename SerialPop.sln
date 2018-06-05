@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "Console\Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "shared", "shared\shared.csproj", "{BA292DFC-6631-43B9-BF5F-1EFE8BB36F4D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerialPop", "SerialPop\SerialPop.csproj", "{6A3EF839-2CBA-4429-8F58-5807DA042DCD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{BA292DFC-6631-43B9-BF5F-1EFE8BB36F4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA292DFC-6631-43B9-BF5F-1EFE8BB36F4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA292DFC-6631-43B9-BF5F-1EFE8BB36F4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A3EF839-2CBA-4429-8F58-5807DA042DCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A3EF839-2CBA-4429-8F58-5807DA042DCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A3EF839-2CBA-4429-8F58-5807DA042DCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A3EF839-2CBA-4429-8F58-5807DA042DCD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

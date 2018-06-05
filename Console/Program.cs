@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Management;
+using System.Threading;
 using shared;
 
 namespace TestConsole
@@ -17,7 +14,7 @@ namespace TestConsole
 
             while (true)
             {
-                System.Threading.Thread.Sleep(1000);
+                Thread.Sleep(1000);
 
                 newer_ports = Serial.GetSortedSerialPortNames();
 
