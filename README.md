@@ -1,0 +1,1 @@
+SerialPop is a tiny C# system tray app that shows pop-ups when serial ports are connected or disconnected to/from the machine.
