@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
+using System.Management;
 using shared;
 
 namespace TestConsole
@@ -20,7 +21,7 @@ namespace TestConsole
 
                 if (!Enumerable.SequenceEqual(older_ports, newer_ports))
                 {
-                    Console.Write(Serial.GetDiff(older_ports, newer_ports));
+                    Console.Write(Serial.FormatDiff(older_ports, newer_ports));
                 }
 
                 older_ports = newer_ports;

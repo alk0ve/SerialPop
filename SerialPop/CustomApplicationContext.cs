@@ -25,7 +25,7 @@ namespace SerialPop
             components = new System.ComponentModel.Container();
             notifyIcon = new NotifyIcon(components)
                              {
-                                 //ContextMenuStrip = new ContextMenuStrip(),
+                                 ContextMenuStrip = new ContextMenuStrip(),
                                  Icon = new Icon(IconFileName),
                                  Text = DefaultTooltip,
                                  Visible = true
