@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Management;
 using shared;
+using System.Collections.Generic;
 
 namespace TestConsole
 {
@@ -10,21 +11,21 @@ namespace TestConsole
     {
         static void Main(string[] args)
         {
-            IOrderedEnumerable<string> older_ports = Serial.GetSortedSerialPortNames();
-            IOrderedEnumerable<string> newer_ports = older_ports;
+            IOrderedEnumerable<SerialPortDescriptor> olderPorts = Serial.GetSortedSerialPortNames();
+            IOrderedEnumerable<SerialPortDescriptor> newerPorts = olderPorts;
 
             while (true)
             {
                 Thread.Sleep(1000);
 
-                newer_ports = Serial.GetSortedSerialPortNames();
+                newerPorts = Serial.GetSortedSerialPortNames();
 
-                if (!Enumerable.SequenceEqual(older_ports, newer_ports))
+                if (!Enumerable.SequenceEqual(olderPorts, newerPorts))
                 {
-                    Console.Write(Serial.FormatDiff(older_ports, newer_ports));
+                    Console.Write(Serial.FormatDiff(olderPorts, newerPorts));
                 }
 
-                older_ports = newer_ports;
+                olderPorts = newerPorts;
             }
         }
     }

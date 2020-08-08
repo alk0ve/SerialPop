@@ -1,4 +1,4 @@
-SerialPop is a tiny C# system tray app that shows pop-ups when serial ports are connected or disconnected to/from the machine.
+SerialPop is a tiny C# system tray app that shows pop-ups when serial ports are connected to or disconnected from your machine.
 
 USAGE:
 1. Run SerialPop.exe, it will appear in your system tray

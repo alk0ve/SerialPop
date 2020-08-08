@@ -31,6 +31,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -56,6 +60,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -77,9 +82,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="USB.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <None Include="Resources\usb.png" />
+    <None Include="Resources\exit.png" />
+    <None Include="Resources\coding.png" />
+    <None Include="Resources\usb.ico" />
+    <None Include="Resources\exit.ico" />
+    <None Include="Resources\coding.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pendrive.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

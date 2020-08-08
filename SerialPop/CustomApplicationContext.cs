@@ -8,7 +8,6 @@ namespace SerialPop
 {
     public class CustomApplicationContext : ApplicationContext
     {
-        private static readonly string IconFileName = "USB.ico";
         private static readonly string DefaultTooltip = "SerialPop";
 
 		public CustomApplicationContext() 
@@ -26,7 +25,7 @@ namespace SerialPop
             notifyIcon = new NotifyIcon(components)
                              {
                                  ContextMenuStrip = new ContextMenuStrip(),
-                                 Icon = new Icon(IconFileName),
+                                 Icon = Properties.Resources.pendrive,
                                  Text = DefaultTooltip,
                                  Visible = true
                              };

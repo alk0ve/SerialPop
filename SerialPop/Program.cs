@@ -10,29 +10,77 @@ namespace SerialPop
     static class Program
     {
 
-        static void UpdateContextMenu(ContextMenuStrip strip, IOrderedEnumerable<string> newer_ports)
+        static void UpdateContextMenu(ContextMenuStrip strip, IOrderedEnumerable<SerialPortDescriptor> newerPorts)
         {
             strip.Close();
             strip.Items.Clear();
-            foreach (string new_port in newer_ports)
+
+            // key is COMYY address (might be null), value is description
+            foreach (SerialPortDescriptor newPort in newerPorts)
             {
-                strip.Items.Add(new_port);
+                strip.Items.Add(new ToolStripMenuItem
+                {
+                    AutoToolTip = false, // the tooltip lingers annoyingly
+                    Text = newPort.Description,
+                    Image = Properties.Resources.usb,
+                    Tag = newPort.Address,
+                    Enabled = (newPort.Address != null) // disable if there's no address
+
+                    // TODO use .DropDownItems to nest items 
+                });
             }
+
+            // add a separator
+            strip.Items.Add(new ToolStripSeparator());
+
+            // add a settings button
+            ToolStripMenuItem settingsButton = new ToolStripMenuItem
+            {
+                AutoToolTip = false, // the tooltip lingers annoyingly
+                Text = "Settings",
+                Image = Properties.Resources.coding
+            };
+            settingsButton.Click += SettingsButton_Click;
+            strip.Items.Add(settingsButton);
+
+            // add a quit button
+            ToolStripMenuItem quitButton = new ToolStripMenuItem
+            {
+                AutoToolTip = false, // the tooltip lingers annoyingly
+                Text = "Quit",
+                Image = Properties.Resources.exit
+            };
+            quitButton.Click += QuitButton_Click;
+            strip.Items.Add(quitButton);
+
         }
 
-        static void InvokeUpdateContextMenu(NotifyIcon notifyIcon, IOrderedEnumerable<string> newer_ports)
+        private static void SettingsButton_Click(object sender, EventArgs e)
         {
+            // TODO implement
+        }
+
+        private static void QuitButton_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        static void InvokeUpdateContextMenu(NotifyIcon notifyIcon, IOrderedEnumerable<SerialPortDescriptor> newerPorts)
+        {
+            //notifyIcon.ContextMenuStrip.
+
+
             if (notifyIcon.ContextMenuStrip.InvokeRequired)
             {
                 // invoke the update on the UI thread
                 notifyIcon.ContextMenuStrip.Invoke((MethodInvoker)delegate
                 {
-                    UpdateContextMenu(notifyIcon.ContextMenuStrip, newer_ports);
+                    UpdateContextMenu(notifyIcon.ContextMenuStrip, newerPorts);
                 });
             }
             else
             {
-                UpdateContextMenu(notifyIcon.ContextMenuStrip, newer_ports);
+                UpdateContextMenu(notifyIcon.ContextMenuStrip, newerPorts);
             }
         }
 
@@ -41,19 +89,19 @@ namespace SerialPop
             NotifyIcon notifyIcon = (NotifyIcon)argument;
 
             // GetSortedSerialPortNames() can throw, so initialization has to be trivial
-            IOrderedEnumerable<string> older_ports = null;
-            IOrderedEnumerable<string> newer_ports = null;
+            IOrderedEnumerable<SerialPortDescriptor> olderPorts = null;
+            IOrderedEnumerable<SerialPortDescriptor> newerPorts = null;
 
 
             // loop until you get one good WMI query, then initialize everything
-            while (older_ports == null)
+            while (olderPorts == null)
             {
                 try
                 {
-                    newer_ports = Serial.GetSortedSerialPortNames();
-                    older_ports = newer_ports;
+                    newerPorts = Serial.GetSortedSerialPortNames();
+                    olderPorts = newerPorts;
 
-                    InvokeUpdateContextMenu(notifyIcon, newer_ports);
+                    InvokeUpdateContextMenu(notifyIcon, newerPorts);
                 }
                 catch (WMIException e)
                 {
@@ -69,22 +117,22 @@ namespace SerialPop
             {
                 try
                 {
-                    newer_ports = Serial.GetSortedSerialPortNames();
+                    newerPorts = Serial.GetSortedSerialPortNames();
 
-                    if (!Enumerable.SequenceEqual(older_ports, newer_ports))
+                    if (!Enumerable.SequenceEqual(olderPorts, newerPorts))
                     {
                         // the tooltip is limited to 64 characters :(
                         //notifyIcon.Text = Serial.FormatPortSummary(newer_ports).Substring(0, 63);
 
-                        InvokeUpdateContextMenu(notifyIcon, newer_ports);
+                        InvokeUpdateContextMenu(notifyIcon, newerPorts);
 
                         notifyIcon.ShowBalloonTip(5000,
                             "Serial ports changed:",
-                            Serial.FormatDiff(older_ports, newer_ports),
+                            Serial.FormatDiff(olderPorts, newerPorts),
                             ToolTipIcon.Info);
                     }
 
-                    older_ports = newer_ports;
+                    olderPorts = newerPorts;
                 }
                 catch (WMIException e)
                 {
