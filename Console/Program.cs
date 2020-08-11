@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
-using System.Management;
 using shared;
-using System.Collections.Generic;
 
 namespace TestConsole
 {
@@ -11,22 +9,27 @@ namespace TestConsole
     {
         static void Main(string[] args)
         {
-            IOrderedEnumerable<SerialPortDescriptor> olderPorts = Serial.GetSortedSerialPortNames();
-            IOrderedEnumerable<SerialPortDescriptor> newerPorts = olderPorts;
+            //IOrderedEnumerable<SerialPortDescriptor> olderPorts = Serial.GetSortedSerialPortNames();
+            //IOrderedEnumerable<SerialPortDescriptor> newerPorts = olderPorts;
 
-            while (true)
-            {
-                Thread.Sleep(1000);
+            //while (true)
+            //{
+            //    Thread.Sleep(1000);
 
-                newerPorts = Serial.GetSortedSerialPortNames();
+            //    newerPorts = Serial.GetSortedSerialPortNames();
 
-                if (!Enumerable.SequenceEqual(olderPorts, newerPorts))
-                {
-                    Console.Write(Serial.FormatDiff(olderPorts, newerPorts));
-                }
+            //    if (!Enumerable.SequenceEqual(olderPorts, newerPorts))
+            //    {
+            //        Console.Write(Serial.FormatDiff(olderPorts, newerPorts));
+            //    }
 
-                olderPorts = newerPorts;
-            }
+            //    olderPorts = newerPorts;
+            //}
+
+            ConfigurationStruct cs = Configuration.Deserialize(Configuration.GetDefaultPath());
+
+
+
         }
     }
 }

@@ -92,5 +92,8 @@
   <ItemGroup>
     <None Include="Resources\pendrive.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\speedometer.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
