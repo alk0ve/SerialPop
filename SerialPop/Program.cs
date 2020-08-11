@@ -15,6 +15,11 @@ namespace SerialPop
 
         static Action<string, string, ToolTipIcon> displayPopUp = null;
 
+        const int POLLING_INTERVAL_MS = 1000; // test for new ports every second
+
+        // used to signal the end of the polling loop
+        static ManualResetEvent stopEvent = new ManualResetEvent(false);
+
         static void InvokeExecutable(string comPort, string baudRate)
         {
             Debug.Assert(int.TryParse(baudRate, out _));
@@ -147,6 +152,10 @@ namespace SerialPop
 
         private static void QuitButton_Click(object sender, EventArgs e)
         {
+            // signal the polling thread to quit
+            stopEvent.Set();
+
+            // close the application in an orderly fashion
             Application.Exit();
         }
 
@@ -224,7 +233,8 @@ namespace SerialPop
             LoadConfiguration();
 
             // loop until you get one good WMI query, then initialize everything
-            while (olderPorts == null)
+            while ((olderPorts == null) &&
+                (false == stopEvent.WaitOne(POLLING_INTERVAL_MS)))
             {
                 try
                 {
@@ -237,10 +247,10 @@ namespace SerialPop
                 {
                     displayPopUp("SerialPop ERROR:", e.Message, ToolTipIcon.Error);
                 }
-                Thread.Sleep(1000);
             }
 
-            while (true)
+            // keep polling until the event is signaled
+            while (false == stopEvent.WaitOne(POLLING_INTERVAL_MS))
             {
                 try
                 {
@@ -259,8 +269,6 @@ namespace SerialPop
                 {
                     displayPopUp("SerialPop ERROR:", e.Message, ToolTipIcon.Error);
                 }
-
-                Thread.Sleep(1000);
             }
         }
 
