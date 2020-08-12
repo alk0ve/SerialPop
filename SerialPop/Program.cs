@@ -4,14 +4,15 @@ using System.Threading;
 using System.Linq;
 using shared;
 using System.IO;
-using System.CodeDom;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace SerialPop
 {
     static class Program
     {
         static ConfigurationStruct currentConfiguration = Configuration.DefaultConfiguration;
+        static bool configurationOutOfSync = false; // this is slightly race-condition-y
 
         static Action<string, string, ToolTipIcon> displayPopUp = null;
 
@@ -147,7 +148,24 @@ namespace SerialPop
 
         private static void SettingsButton_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            Settings settings = new Settings(currentConfiguration);
+            DialogResult result = settings.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                // update using settings.currentConfiguration
+                currentConfiguration = settings.currentConfiguration;
+                configurationOutOfSync = true;
+                try
+                {
+                    Configuration.Serialize(Configuration.GetDefaultPath(),
+                        currentConfiguration);
+                }
+                catch (Exception ex)
+                {
+                    displayPopUp("SerialPop configuration ERROR:", ex.Message, ToolTipIcon.Error);
+                }
+            }
         }
 
         private static void QuitButton_Click(object sender, EventArgs e)
@@ -212,7 +230,7 @@ namespace SerialPop
             }
         }
 
-        static void PollLoop(object argument)
+        static void PollingLoop(object argument)
         {
             NotifyIcon notifyIcon = (NotifyIcon)argument;
 
@@ -231,6 +249,9 @@ namespace SerialPop
             displayPopUp = notify;
 
             LoadConfiguration();
+
+            // populate the context menu with default values
+            InvokeUpdateContextMenu(notifyIcon, new List<SerialPortDescriptor>().OrderBy(t => t));
 
             // loop until you get one good WMI query, then initialize everything
             while ((olderPorts == null) &&
@@ -269,6 +290,12 @@ namespace SerialPop
                 {
                     displayPopUp("SerialPop ERROR:", e.Message, ToolTipIcon.Error);
                 }
+
+                if (configurationOutOfSync)
+                {
+                    configurationOutOfSync = false;
+                    InvokeUpdateContextMenu(notifyIcon, newerPorts);
+                }
             }
         }
 
@@ -285,7 +312,7 @@ namespace SerialPop
             {
                 var applicationContext = new CustomApplicationContext();
 
-                Thread pollingThread = new Thread(new ParameterizedThreadStart(PollLoop));
+                Thread pollingThread = new Thread(new ParameterizedThreadStart(PollingLoop));
                 pollingThread.Start(applicationContext.notifyIcon);
 
                 Application.Run(applicationContext);
