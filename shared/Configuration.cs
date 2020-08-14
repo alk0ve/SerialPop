@@ -8,6 +8,10 @@ using System.Xml.Serialization;
 
 namespace shared
 {
+    /*
+     * SerialPop's configuration - what to execute through the context menu and with which
+     * baud rates.
+     */
     public struct ConfigurationStruct
     {
         public string ExecutablePath;
@@ -15,9 +19,11 @@ namespace shared
         public List<int> BaudRates;
     }
 
-    
 
-
+    /*
+     * The Configuration class handles (de)serialization of the configuration struct
+     * to/from XML.
+     */
     public class Configuration
     {
         public const string CONFIGURATION_FILE_NAME = "config.xml";
@@ -33,6 +39,7 @@ namespace shared
             Arguments = DEFAULT_ARGUMENTS, BaudRates = DEFAULT_BAUD_RATES
         };
 
+        // we'll use this path to store the configuration file.
         public static string GetDefaultPath()
         {
             return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, CONFIGURATION_FILE_NAME);

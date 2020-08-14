@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Text;
 using System.Management;
 using System.Collections.Generic;
 using System.IO.Ports;
@@ -7,6 +6,12 @@ using System;
 
 namespace shared
 {
+    /*
+     * The Serial class implements WMI and registry (via the .Net SerialPort class)
+     * queries to obtain the currently connected serial ports, as well as cross-referencing
+     * them to match port addresses (of the COMYY form) to their descriptions.
+     */
+
     public class WMIException: System.Exception
     {
         public WMIException()
@@ -62,9 +67,6 @@ namespace shared
             // try to match a COMYY address to each textual entry, so we could use it as 
             IEnumerable<string> comAddresses = SerialPort.GetPortNames();
 
-            // remove anything that doesn't look like COMYY
-            comAddresses = comAddresses.Where(addr => (addr.StartsWith("COM", StringComparison.CurrentCultureIgnoreCase))); 
-
             List<SerialPortDescriptor> portNamesAndDescriptions = new List<SerialPortDescriptor>();
 
             // find a matching description for each port, using each description once
@@ -102,28 +104,6 @@ namespace shared
 
             return portNamesAndDescriptions.OrderBy(t => t.Address);
 
-        }
-
-        public static string FormatDiff(IOrderedEnumerable<SerialPortDescriptor> old_pairs, IOrderedEnumerable<SerialPortDescriptor> newer_pairs)
-        {
-            // ignore the ports, only process descriptions
-            IEnumerable<string> old = old_pairs.Select(t => t.Description);
-            IEnumerable<string> newer = newer_pairs.Select(t => t.Description);
-
-            StringBuilder sb = new StringBuilder();
-            foreach (string s in old.Except(newer))
-            {
-                // removed devices
-                sb.AppendFormat(" - {0}\n", s);
-            }
-
-            foreach (string s in newer.Except(old))
-            {
-                // new devices
-                sb.AppendFormat(" + {0}\n", s);
-            }
-
-            return sb.ToString();
         }
     }
 }

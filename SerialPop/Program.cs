@@ -6,6 +6,7 @@ using shared;
 using System.IO;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System.Text;
 
 namespace SerialPop
 {
@@ -21,6 +22,35 @@ namespace SerialPop
         // used to signal the end of the polling loop
         static ManualResetEvent stopEvent = new ManualResetEvent(false);
 
+        /*
+         * Prepare the text for the pop-up by comparing old and new port entries.
+         */
+        public static string FormatDiff(IOrderedEnumerable<SerialPortDescriptor> old_pairs, IOrderedEnumerable<SerialPortDescriptor> newer_pairs)
+        {
+            // ignore the ports, only process descriptions
+            IEnumerable<string> old = old_pairs.Select(t => t.Description);
+            IEnumerable<string> newer = newer_pairs.Select(t => t.Description);
+
+            StringBuilder sb = new StringBuilder();
+            foreach (string s in old.Except(newer))
+            {
+                // removed devices
+                sb.AppendFormat(" - {0}\n", s);
+            }
+
+            foreach (string s in newer.Except(old))
+            {
+                // new devices
+                sb.AppendFormat(" + {0}\n", s);
+            }
+
+            return sb.ToString();
+        }
+
+        /*
+         * Invoke the executable the user specified in Settings by replacing the placeholders 
+         * in the arguments with the values according to the menu entry chosen.
+         */
         static void InvokeExecutable(string comPort, string baudRate)
         {
             Debug.Assert(int.TryParse(baudRate, out _));
@@ -41,6 +71,12 @@ namespace SerialPop
         }
 
 
+        /*
+         * Dynamically populate the context menu to reflect the current COM ports.
+         * Each menu entry represents a single port.
+         * If more than one baud rate is specified, the port entry is nested, with
+         * the next level of the menu showing all the available baud rates.
+         */
         static void UpdateContextMenu(ContextMenuStrip strip, IOrderedEnumerable<SerialPortDescriptor> newerPorts)
         {
             strip.Close();
@@ -179,9 +215,6 @@ namespace SerialPop
 
         static void InvokeUpdateContextMenu(NotifyIcon notifyIcon, IOrderedEnumerable<SerialPortDescriptor> newerPorts)
         {
-            //notifyIcon.ContextMenuStrip.
-
-
             if (notifyIcon.ContextMenuStrip.InvokeRequired)
             {
                 // invoke the update on the UI thread
@@ -281,7 +314,7 @@ namespace SerialPop
                     {
                         InvokeUpdateContextMenu(notifyIcon, newerPorts);
 
-                        displayPopUp("Serial ports changed:", Serial.FormatDiff(olderPorts, newerPorts), ToolTipIcon.Info);
+                        displayPopUp("Serial ports changed:", FormatDiff(olderPorts, newerPorts), ToolTipIcon.Info);
                     }
 
                     olderPorts = newerPorts;

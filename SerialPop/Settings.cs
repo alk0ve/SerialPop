@@ -1,20 +1,19 @@
 ﻿using shared;
 using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SerialPop
 {
     public partial class Settings : Form
     {
+        /*
+         * This form is used to edit the configuration struct.
+         * Each change in data is immediately reflected in the currentConfiguration member,
+         * but it is not serialized into a file until the OK button is pressed (and the 
+         * serialization itself isn't invoked from this class).
+         */
+
         public ConfigurationStruct currentConfiguration;
 
         public Settings(ConfigurationStruct configuration)
@@ -51,6 +50,7 @@ namespace SerialPop
 
         private void listBaudRates_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // don't allow deleting the last baud rate entry
             btnDeleteBaudRate.Enabled = ((listBaudRates.SelectedIndices.Count > 0) && (listBaudRates.Items.Count > 1));
         }
 
@@ -80,6 +80,7 @@ namespace SerialPop
 
         private void txtboxNewBaudrate_TextChanged(object sender, EventArgs e)
         {
+            // enable the Add button only if the input is numeric
             btnAddBaudRate.Enabled = int.TryParse(txtboxNewBaudrate.Text, out _);
         }
 
