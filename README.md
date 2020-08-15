@@ -6,8 +6,8 @@ Connect to a serial port with just three mouse clicks using your favourite tool.
 ![This is what the context menu might look like](docs/images/menu.png)
 
 
-## Table of Contents @@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-TODO
+## Table of Contents
+[Installation & Usage] (#installation--usage)
 
 
 ## Installation & Usage
