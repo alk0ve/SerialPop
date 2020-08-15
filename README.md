@@ -16,6 +16,7 @@ Connect to a serial port with just three mouse clicks using your favourite tool.
 * [Reporting bugs or requesting features](#reporting-bugs-or-requesting-features)
 * [Source Code and Building](#source-code-and-building)
 * [How to test](#how-to-test)
+* [Known issues](#known-issues)
 * [Future and Roadmap](#future-and-roadmap)
 * [Contributing](#contributing)
 
@@ -86,9 +87,12 @@ There are two useful tricks you could use to test SerialPop:
 1. Use **dummy.bat** as the executable you use to connect to serial ports - dummy.bat prints all of its arguments and then waits for you to hit Enter, and it's a decent way of making sure your arguments to your tool of choice are correct.
 2. Use [com0com's ](http://com0com.sourceforge.net/) **setupg.exe** (UI) or **setupc.exe** (command line) utilities to create new virtual COM ports (you might have to enable "use Ports class"), it might be easier than plugging in actual hardware.
 
+## Known issues
+1. The 0.3 release is flagged by at least two antivirus software (according to VirusTotal), I already submitted the executables to both as false positives. This affects both the release and debug versions of SerialPop, there isn't much I can do at the moment. If you encounter this issue please build the tag corresponding to the latest release (that's the 0.3 tag at the moment), the build time is less than a minute.
+
 
 ## Future and Roadmap
-At the moment I have only one design for the future: to refactor SerialPop into a service that monitors serial port connections and pushes notifications whenever there's been a change, and a UI that subscribes to that service. I think this approach will make my code much easier to reuse once there's a well defined API for receiving notifications, and other tools might be built on top of that
+At the moment I have only one design for the future: to refactor SerialPop into a service that monitors serial port connections and pushes notifications whenever there's been a change, and a UI that subscribes to that service. I think this approach will make my code much easier to reuse once there's a well defined API for receiving notifications, and other tools might be built on top of that.
 
 
 ## Contributing
