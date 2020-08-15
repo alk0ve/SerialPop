@@ -16,12 +16,42 @@ Connect to a serial port with just three mouse clicks using your favourite tool.
 
 
 ## Installation and Usage
-<get latest release, run on startup, make it always visible in taskbar, configure settings>
+### Installing and running for the first time
+There is no explicit installtion step, just grab the [latest release from the repo](https://github.com/alk0ve/SerialPop/releases), unpack it and run. To make sure it runs without errors, you can either right-click on the SerialPop task bar icon (and see a menu that looks like the one in the screenshot above), or connect or disconnect a serial device to have SerialPop generate a notification.
+Once SerialPop runs, you should open the Settings tab to define how you want to connect to serial ports by specifying the tool you want to run and its arguments, with optional placeholders **{COM}** and **{BAUDRATE}**, which will be replaced by SerialPop with the serial port address and baud rate you click on in the context menu (there's an example of what your arguments look like *after* replacing the placeholders with sample values).
 
+### Usage
+SerialPop does two things: it displays notifications whenever you connect or disconnect a serial device from your machine, and it allows you to quickly connect to any available serial port via the context (right-click) menu. In order to connect to a serial device you need to first point to the executable you want to use (*putty.exe*'s path, for example), and then specify its arguments, where you can use the placeholders **{COM}** and **{BAUDRATE}**. When you click on a specific menu entry SerialPop will use that entry's COM port address and baud rate instead of the placeholders. The Settings form also includes an example that demonstrates how your arguments will end up after replacing the placeholders.
+
+![A sample Settings form](docs/images/settings.png)
+
+### Quality of life improvements
+There are three things you should probably do in order to get the most out of SerialPop:
+* Populate the baud rate list with the baud rates you usually see (the two most common ones are 57600 and 115200, but this very much depends on the device you're dealing with)
+* Make SerialPop always visible in your taskbar (on the current Windows 10 you need to right-click the taskbar --> Taskbar Settings --> scroll down to Notification area --> *Select which icons appears on the taskbar* --> click *On* in the SerialPop row)
+* Make SerialPop run on startup (last time I checked you could add a shortcut to SerialPop in *C:\Users\[your user name]\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup*)
+
+Note that your settings are stored in *config.xml*, in the same folder as SerialPop itself (which means that it should have enough permissions to create the file).
+The configuration file's format is simple, and typically looks similar to this:
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<ConfigurationStruct xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ExecutablePath>putty.exe</ExecutablePath>
+  <Arguments>-serial {COM} -sercfg {BAUDRATE},8,n,1,N</Arguments>
+  <BaudRates>
+    <int>115200</int>
+    <int>57600</int>
+    <int>500000</int>
+  </BaudRates>
+</ConfigurationStruct>
+```
+
+
+### Errors and issues
 various edge cases (only one baud rate, for example)
 	mention why menu entries might be disabled
 	mention error pop-ups
-	mention configuration file - insert code quote with example
+	
 
 
 ## Reporting bugs or requesting features
