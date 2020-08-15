@@ -88,9 +88,7 @@ There are two useful tricks you could use to test SerialPop:
 2. Use [com0com's ](http://com0com.sourceforge.net/) **setupg.exe** (UI) or **setupc.exe** (command line) utilities to create new virtual COM ports (you might have to enable "use Ports class"), it might be easier than plugging in actual hardware.
 
 ## Known issues
-1. The 0.3 release is flagged by at least two antivirus software (according to VirusTotal), I already submitted the executables to both as false positives. This affects both the release and debug versions of SerialPop, there isn't much I can do at the moment.
-
-If you encounter this issue please build the tag corresponding to the latest release (that's the 0.3 tag at the moment), the build time is less than a minute.
+1. The 0.3 release is flagged by at least two antivirus software (according to VirusTotal), I already submitted the executables to both as false positives. This affects both the release and debug versions of SerialPop, there isn't much I can do at the moment. If you encounter this issue please build the tag corresponding to the latest release (that's the 0.3 tag at the moment), the build time is less than a minute.
 
 
 ## Future and Roadmap
