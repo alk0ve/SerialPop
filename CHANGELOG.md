@@ -1,7 +1,7 @@
 # Change log
 All notable changes to this project will be documented in this file.
 
-## [0.3] - ?-Aug-2020
+## [0.3] - 14-Aug-2020
 - Add an option to launch an executable with the chosen COM port and baud rate
 - Add Quit and Settings functionality
 - Add an XML configuration file

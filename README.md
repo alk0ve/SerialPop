@@ -1,12 +1,41 @@
-SerialPop is a tiny C# system tray app that shows pop-ups when serial ports are connected to or disconnected from your machine.
+Get a pop up whenever a serial port connects to or disconnects from your machine.
+Connect to a serial port with just three mouse clicks using your favourite tool.
 
-USAGE:
-1. Run SerialPop.exe, it will appear in your system tray
+![This is what the context menu might look like](docs/images/menu.png)
 
-   1.1. It's a good idea to configure the taskbar to always show it
 
-   1.2. Another good idea would be to have it run during startup
+<table of contents > @@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-2. Whenever a serial port appears or disappears you'll get a toast notification with the details
 
-3. Right-click on the taskbar icons to see all the currently connected serial ports
+Installation & Usage
+<get latest release, run on startup, make it always visible in taskbar, configure settings>
+
+various edge cases (only one baud rate, for example)
+	mention why menu entries might be disabled
+	mention error pop-ups
+	mention configuration file - insert code quote with example
+
+
+bugs/feature requests? create an issue [link]
+
+
+Source code & building
+	write a high-level overview of threads and classes
+	document the build process :)
+		- mention the weird issue with Settings not rendering before the first build
+
+
+testing
+	explain how to use dummy.bat for testing
+	explain that you can use com0com's setupg.exe (UI) and setupc.exe (command line) to create new virtual COM ports (just enable "use Ports class")
+
+roadmap: refactoring this into a service that can send COM port updates to several subscribers, one of them being SerialPop
+		- and that you might consider doing it if there's enough interest
+		- using some message queue, UDP, etc.
+
+
+
+Contributing - ko-fi, bugs/issues (how to reproduce), feature requests, help refactoring
+
+
+	
