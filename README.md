@@ -1,6 +1,6 @@
 # SerialPop
 
-Get a pop up whenever a serial port connects to or disconnects from your machine.
+Get a pop up whenever a [serial port](https://en.wikipedia.org/wiki/Serial_port) connects to or disconnects from your machine.
 Connect to a serial port with just three mouse clicks using your favourite tool.
 
 ![This is what the context menu might look like](docs/images/menu.png)
@@ -18,10 +18,13 @@ Connect to a serial port with just three mouse clicks using your favourite tool.
 ## Installation and Usage
 ### Installing and running for the first time
 There is no explicit installtion step, just grab the [latest release from the repo](https://github.com/alk0ve/SerialPop/releases), unpack it and run. To make sure it runs without errors, you can either right-click on the SerialPop task bar icon (and see a menu that looks like the one in the screenshot above), or connect or disconnect a serial device to have SerialPop generate a notification.
+
 Once SerialPop runs, you should open the Settings tab to define how you want to connect to serial ports by specifying the tool you want to run and its arguments, with optional placeholders **{COM}** and **{BAUDRATE}**, which will be replaced by SerialPop with the serial port address and baud rate you click on in the context menu (there's an example of what your arguments look like *after* replacing the placeholders with sample values).
 
 ### Usage
-SerialPop does two things: it displays notifications whenever you connect or disconnect a serial device from your machine, and it allows you to quickly connect to any available serial port via the context (right-click) menu. In order to connect to a serial device you need to first point to the executable you want to use (*putty.exe*'s path, for example), and then specify its arguments, where you can use the placeholders **{COM}** and **{BAUDRATE}**. When you click on a specific menu entry SerialPop will use that entry's COM port address and baud rate instead of the placeholders. The Settings form also includes an example that demonstrates how your arguments will end up after replacing the placeholders.
+SerialPop does two things: it displays notifications whenever you connect or disconnect a serial device from your machine, and it allows you to quickly connect to any available serial port via the context (right-click) menu.
+
+In order to connect to a serial device you need to first point to the executable you want to use (*putty.exe*'s path, for example), and then specify its arguments, where you can use the placeholders **{COM}** and **{BAUDRATE}**. When you click on a specific menu entry SerialPop will use that entry's COM port address and baud rate instead of the placeholders. The Settings form also includes an example that demonstrates how your arguments will end up after replacing the placeholders.
 
 ![A sample Settings form](docs/images/settings.png)
 
@@ -48,33 +51,39 @@ The configuration file's format is simple, and typically looks similar to this:
 
 
 ### Errors and issues
-various edge cases (only one baud rate, for example)
-	mention why menu entries might be disabled
-	mention error pop-ups
-	
+In general, whenever SerialPop encounters an error it will create a notification with the exception message. There is one exception to this rule: if SerialPop can't get the address of a serial port it will disable its menu entry - it will appear but you won't be able to connect to that device. This usually means that the APIs SerialPop relies on for COM port addresses and descriptions were out of sync.
+
+A quick note: if you specify just one baud rate you won't see a nested menu (since there's no need to choose a baud rate). In this case, clicking on the port entry will directly launch the tool you specified in Settings.
 
 
 ## Reporting bugs or requesting features
 If you find any bugs or issues - please [create an issue](https://github.com/alk0ve/SerialPop/issues), and make sure you include instructions for reproducing the issue; I'll try to fix it as soon as possible.
+
 If you have suggestions for features you'd like to see in SerialPop you can create and issue detailing your idea, and I might get around to implementing it, depending on how much public interest there is (and how much I personally think it's a good idea).
 
 
 ## Source Code and Building
-	write a high-level overview of threads and classes
-	
-	document the build process :)
-		- mention the weird issue with Settings not rendering before the first build
+### Building
+There are no external dependencies, so all you need to do to build SerialPop is to open the solution in Visual Studio and click "Build Solution".
+
+At the moment (due to some internal dependencies, I'm guessing) you have to build the solution *before* you can open the Settings form in the Designer.
+
+### Source code structure
+The solution is split into three projects: **TestConsole** (which I'm using for experimentation), **shared** (a library containing code that might be reused in the future) and **SerialPop** (which contains the application and UI logic). shared contains two useful classes, the first being *Serial*, which queries the system for information about serial ports using two different APIs: [WMI](https://en.wikipedia.org/wiki/Windows_Management_Instrumentation) and the C# SerialPort class (which internally queries the Windows Registry).
+
+The second class in shared is *Configuration*, which handles (de)serialization of the configuraiton file into XML.
+
+Internally, SerialPop runs in two threads: a standard C# UI thread, and a polling thread that uses *shared.Serial*.
 
 
 ## How to test
-	explain how to use dummy.bat for testing
-	explain that you can use com0com's setupg.exe (UI) and setupc.exe (command line) to create new virtual COM ports (just enable "use Ports class")
+There are two useful tricks you could use to test SerialPop:
+1. Use **dummy.bat** as the executable you use to connect to serial ports - dummy.bat prints all of its arguments and then waits for you to hit Enter, and it's a decent way of making sure your arguments to your tool of choice are correct.
+2. Use [com0com's ](http://com0com.sourceforge.net/) **setupg.exe** (UI) or **setupc.exe** (command line) utilities to create new virtual COM ports (you might have to enable "use Ports class"), it might be easier than plugging in actual hardware.
+
 
 ## Future and Roadmap
-	refactoring this into a service that can send COM port updates to several subscribers, one of them being SerialPop
-		- and that you might consider doing it if there's enough interest
-		- using some message queue, UDP, etc.
-
+At the moment I have only one design for the future: to refactor SerialPop into a service that monitors serial port connections and pushes notifications whenever there's been a change, and a UI that subscribes to that service. I think this approach will make my code much easier to reuse once there's a well defined API for receiving notifications, and other tools might be built on top of that
 
 
 ## Contributing
