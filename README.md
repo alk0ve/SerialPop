@@ -1,4 +1,9 @@
 # SerialPop
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/alk0ve/SerialPop/blob/master/LICENSE.md)
+[![GitHub issues](https://img.shields.io/github/issues-raw/alk0ve/SerialPop)](https://github.com/alk0ve/SerialPop/issues)
+![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)
+![Awesome Badges](https://img.shields.io/badge/badges-awesome-green.svg)
+
 
 Get a pop up whenever a [serial port](https://en.wikipedia.org/wiki/Serial_port) connects to or disconnects from your machine.
 Connect to a serial port with just three mouse clicks using your favourite tool.
@@ -88,7 +93,7 @@ At the moment I have only one design for the future: to refactor SerialPop into 
 
 ## Contributing
 There are three ways you can show appreciation for this project or contribute to it
-* [Buy me a coffee](https://ko-fi.com/alk0ve) (also under 'Sponsor this project' to your right)
+* [Buy me a coffee:coffee:](https://ko-fi.com/alk0ve) (also under 'Sponsor this project' to your right)
 * [Report any bugs or issues you find](https://github.com/alk0ve/SerialPop/issues) (and don't forget to include intructions on how to them)
 * If you want to help me implement more features or refactor the source code - get in touch with me (my email should be visible in my profile)
 
