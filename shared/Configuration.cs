@@ -33,7 +33,7 @@ namespace shared
 
         public const string DEFAULT_EXECUTABLE = "putty.exe";
         public const string DEFAULT_ARGUMENTS = "-serial " + COM_PORT_PATTERN + " -sercfg " + BAUD_RATE_PATTERN + ",8,n,1,N";
-        public static readonly List<int> DEFAULT_BAUD_RATES = new List<int>() { 115200 };
+        public static readonly List<int> DEFAULT_BAUD_RATES = new List<int>() { 57600, 115200 };
 
         public static readonly ConfigurationStruct DefaultConfiguration = new ConfigurationStruct() { ExecutablePath = DEFAULT_EXECUTABLE,
             Arguments = DEFAULT_ARGUMENTS, BaudRates = DEFAULT_BAUD_RATES
