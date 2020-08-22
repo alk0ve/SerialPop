@@ -100,7 +100,7 @@ There are two useful tricks you could use to test SerialPop:
 ## Contributing
 There are three ways you can show appreciation for this project or contribute to it
 * [Buy me a coffee:coffee:](https://ko-fi.com/alk0ve) (also under 'Sponsor this project' to your right)
-* [Report any bugs or issues you find](https://github.com/alk0ve/SerialPop/issues) (and don't forget to include intructions on how to them)
+* [Report any bugs or issues you find](https://github.com/alk0ve/SerialPop/issues) (and don't forget to include intructions on how to reproduce them)
 * If you want to help me implement more features or refactor the source code - get in touch with me (my email should be visible in my profile)
 
 
