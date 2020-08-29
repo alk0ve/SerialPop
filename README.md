@@ -94,6 +94,7 @@ There are two useful tricks you could use to test SerialPop:
 ## Future and Roadmap
 1. Add a way to make SerialPop run at startup to the Settings form.
 2. Add an installer with initial options (findings putty.exe, running at startup).
+3. (This might end up making #2 redundant) Add support for self-updating via Squirrel & Nuget.
 3. Refactor SerialPop into a service that monitors serial port connections and pushes notifications whenever there's been a change, and a UI that subscribes to that service. I think this approach will make my code much easier to reuse once there's a well defined API for receiving notifications, and other tools might be built on top of that.
 
 
