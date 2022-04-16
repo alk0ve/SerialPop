@@ -22,6 +22,8 @@ namespace SerialPop
         // used to signal the end of the polling loop
         static ManualResetEvent stopEvent = new ManualResetEvent(false);
 
+        static Thread pollingThread = null;
+
         /*
          * Prepare the text for the pop-up by comparing old and new port entries.
          */
@@ -209,6 +211,12 @@ namespace SerialPop
             // signal the polling thread to quit
             stopEvent.Set();
 
+            // wait for thread to end
+            if (pollingThread != null)
+            {
+                pollingThread.Join();
+            }
+
             // close the application in an orderly fashion
             Application.Exit();
         }
@@ -345,7 +353,8 @@ namespace SerialPop
             {
                 var applicationContext = new CustomApplicationContext();
 
-                Thread pollingThread = new Thread(new ParameterizedThreadStart(PollingLoop));
+                pollingThread = new Thread(new ParameterizedThreadStart(PollingLoop));
+                pollingThread.IsBackground = false;
                 pollingThread.Start(applicationContext.notifyIcon);
 
                 Application.Run(applicationContext);
